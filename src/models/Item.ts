@@ -1,26 +1,26 @@
-import type { AppliedDiscountInfos } from "../schemas/discountSchemas.ts";
-import type Discount from "./Discount.ts";
+import type { AppliedDiscountInfos, AppliedDiscountResModel } from "../schemas/discountSchemas.ts";
+import { Money } from "./Money.ts";
 
 class Item {
   private readonly productId: string;
   private readonly quantity: number;
-  private readonly unitPrice: number;
+  private readonly unitPrice: Money;
   private readonly category: string;
   private itemDiscounts: AppliedDiscountInfos[];
-  private subtotal: number;
-  private total: number;
+  private subtotal: Money;
+  private total: Money;
 
   constructor(
     productId: string,
     quantity: number,
-    unitPrice: number,
+    unitPrice: Money,
     category: string,
   ) {
     this.productId = productId;
     this.quantity = quantity;
     this.unitPrice = unitPrice;
     this.category = category;
-    this.subtotal = unitPrice * quantity;
+    this.subtotal = unitPrice.multiply(quantity);
     this.total = this.subtotal;
     this.itemDiscounts = [];
   }
@@ -29,29 +29,39 @@ class Item {
     return this.productId;
   }
 
-  getSubtotal(): number {
+  getSubtotal(): Money {
     return this.subtotal;
   }
-  setSubtotal(subtotal: number): void {
+  setSubtotal(subtotal: Money): void {
     this.subtotal = subtotal;
   }
 
   getQuantity(): number {
     return this.quantity;
   }
-  getUnitPrice(): number {
+  getUnitPrice(): Money {
     return this.unitPrice;
   }
   getCategory(): string {
     return this.category;
   }
+
   getItemDiscounts(): AppliedDiscountInfos[] {
     return this.itemDiscounts;
   }
-  getTotal(): number {
+
+  getItemDiscountsResponseModel(): AppliedDiscountResModel[] {
+    return this.itemDiscounts.map(discount => ({
+      ...discount,
+      fixed: discount.fixed.toDecimal(),
+      basis: discount.basis.toDecimal(),
+      amount: discount.amount.toDecimal()
+    }));
+  }
+  getTotal(): Money {
     return this.total;
   }
-  setTotal(total: number): void {
+  setTotal(total: Money): void {
     this.total = total;
   }
   addAppliedDiscount(appliedDiscount: AppliedDiscountInfos): void {

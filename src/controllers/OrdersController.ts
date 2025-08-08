@@ -25,15 +25,15 @@ class OrdersController {
     const responseBody = {
       items: order.getItems().map(item => ({
         productId: item.getProductId(),
-        unitPrice: item.getUnitPrice(),
+        unitPrice: item.getUnitPrice().toDecimal(),
         quantity: item.getQuantity(),
-        subtotal: item.getSubtotal(),
+        subtotal: item.getSubtotal().toDecimal(),
         category: item.getCategory(),
-        itemDiscounts: item.getItemDiscounts()
+        itemDiscounts: item.getItemDiscountsResponseModel()
       })),
-      discounts: order.getOrderDiscounts(),
-      total: order.getTotal(),
-      subtotal: order.getSubtotal()
+      discounts: order.getOrderDiscountsResponseModel(),
+      total: order.getTotal().toDecimal(),
+      subtotal: order.getSubtotal().toDecimal()
     }
     return res.send(responseBody);
   }

@@ -1,9 +1,10 @@
 import type { AppliedDiscountInfos, DiscountInfos } from "../schemas/discountSchemas.ts";
+import { Money } from "./Money.ts";
 
 class Discount {
   private readonly code: string;
   private readonly name: string;
-  private readonly fixed: number;
+  private readonly fixed: Money;
   private readonly rate: number;
 
   constructor(discount: DiscountInfos) {
@@ -13,7 +14,7 @@ class Discount {
     this.rate = discount.rate;
   }
 
-  applyInto(basis: number): AppliedDiscountInfos {
+  applyInto(basis: Money): AppliedDiscountInfos {
     const amount = this.isFixedDiscount() ? this.applyFixed(basis) : this.applyRate(basis);
     console.log(`Applying discount ${this.code} from ${basis} to ${amount} with rate ${this.rate} and fixed ${this.fixed}`);
     return {
@@ -28,15 +29,15 @@ class Discount {
   }
 
   private isFixedDiscount(): boolean {
-    return this.fixed > 0;
+    return this.fixed.getAmount() > 0;
   }
 
-  private applyFixed(value: number): number {
-    return value - this.fixed;
+  private applyFixed(value: Money): Money {
+    return value.subtract(this.fixed);
   }
 
-  private applyRate(value: number): number {
-    return value * (1 - this.rate);
+  private applyRate(value: Money): Money {
+    return value.multiply(1 - this.rate);
   }
 
   getCode(): string {
@@ -47,7 +48,7 @@ class Discount {
     return this.name;
   }
 
-  getFixed(): number {
+  getFixed(): Money {
     return this.fixed;
   }
 

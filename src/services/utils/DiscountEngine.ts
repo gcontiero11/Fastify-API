@@ -2,17 +2,16 @@ import { discounts } from "../../db/discounts.ts";
 import Discount from "../../models/Discount.ts";
 import Item from "../../models/Item.ts";
 import Order from "../../models/Order.ts";
-import type { AppliedDiscountInfos } from "../../schemas/discountSchemas.ts";
-import type { ItemInfos } from "../../schemas/orderSchemas.ts";
+import { Money } from "../../models/Money.ts";
 
 class DiscountEngine {
   calculateAndApplyDiscounts(order: Order): Order {
     const items = order.getItems();
-    let total = 0;
+    let total = Money.fromCents(0, "BRL");
 
     items.forEach(item => {
       this.applyDiscountsBy(item);
-      total += item.getTotal();
+      total = total.add(item.getTotal());
     });
     order.setTotal(total);
     console.log("Total after item discounts:", total);
@@ -64,9 +63,9 @@ class DiscountEngine {
   }
 
   private applyDiscountByCartValue(order: Order) {
-    if (order.getTotal() >= 2000) {
+    if (order.getTotal().toDecimal() >= 2000) {
       this.applyDiscountIntoOrder(order, "CART_VALUE_FIXED_150");
-    } else if (order.getTotal() >= 1000) {
+    } else if (order.getTotal().toDecimal() >= 1000) {
       this.applyDiscountIntoOrder(order, "CART_VALUE_FIXED_50");
     }
   }

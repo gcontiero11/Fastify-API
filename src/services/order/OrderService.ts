@@ -3,6 +3,7 @@ import DiscountEngine from "../utils/DiscountEngine.ts";
 import { products } from "../../db/products.ts";
 import Item from "../../models/Item.ts";
 import Order from "../../models/Order.ts";
+import { Money } from "../../models/Money.ts";
 
 class OrderService {
   createOrder(request: CreateOrderReqModel) {
@@ -11,9 +12,15 @@ class OrderService {
       if (!product) {
         throw new Error("Product not found");
       }
-      return new Item(product.productId, item.quantity, product.unitPrice, product.category);
+      return new Item(product.productId, item.quantity, Money.fromDecimal(product.unitPrice, "BRL"), product.category);
     });
-    const subTotal = items.reduce((acc, item) => acc + item.getUnitPrice() * item.getQuantity(), 0);
+    const subTotal = items.reduce(
+      (acc, item) =>
+        item.getUnitPrice()
+          .multiply(item.getQuantity())
+          .add(acc),
+      Money.fromDecimal(0, "BRL")
+    );
     const order = new Order(items, subTotal);
 
     return DiscountEngine.calculateAndApplyDiscounts(order);

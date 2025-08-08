@@ -1,28 +1,29 @@
-import type { AppliedDiscountInfos } from "../schemas/discountSchemas.ts";
+import type { AppliedDiscountInfos, AppliedDiscountResModel } from "../schemas/discountSchemas.ts";
 import type Item from "./Item.ts";
+import { Money } from "./Money.ts";
 
 class Order {
   private readonly currency: string = "BRL";
   private readonly items: Item[];
   private readonly discounts: AppliedDiscountInfos[] = [];
-  private total: number = 0;
-  private readonly subtotal: number;
+  private total: Money = Money.fromCents(0, "BRL");
+  private readonly subtotal: Money;
 
-  constructor(items: Item[], subtotal: number) {
+  constructor(items: Item[], subtotal: Money) {
     this.items = items;
     this.subtotal = subtotal;
   }
 
-  getSubtotal(): number {
+  getSubtotal(): Money {
     return this.subtotal;
   }
   getItems(): Item[] {
     return this.items;
   }
-  getTotal(): number {
+  getTotal(): Money {
     return this.total;
   }
-  setTotal(total: number): void {
+  setTotal(total: Money): void {
     this.total = total;
   }
   addAppliedDiscount(appliedDiscount: AppliedDiscountInfos): void {
@@ -31,6 +32,15 @@ class Order {
 
   getOrderDiscounts(): AppliedDiscountInfos[] {
     return this.discounts;
+  }
+
+  getOrderDiscountsResponseModel(): AppliedDiscountResModel[] {
+    return this.discounts.map(discount => ({
+      ...discount,
+      fixed: discount.fixed.toDecimal(),
+      basis: discount.basis.toDecimal(),
+      amount: discount.amount.toDecimal()
+    }));
   }
 }
 export default Order;

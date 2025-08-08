@@ -7,4 +7,4 @@ const productSchema = z.object({
 
 export const createOrderSchema = z.array(productSchema);
 
-export type CreateOrderSchema = z.infer<typeof createOrderSchema>;
+export type CreateOrderReqModel = z.infer<typeof createOrderSchema>;

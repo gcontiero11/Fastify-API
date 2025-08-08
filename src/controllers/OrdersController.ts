@@ -2,6 +2,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import type { CreateOrderReqModel } from "../schemas/orderSchemas.ts";
 import { createOrderSchema } from "../schemas/orderSchemas.ts";
 import OrderService from "../services/order/OrderService.ts";
+import { ResponseException } from "../exception/ResponseException.ts";
 
 class OrdersController {
   async createOrder(req: FastifyRequest, res: FastifyReply) {
@@ -20,10 +21,14 @@ class OrdersController {
       })
     }
 
-    const order = OrderService.createOrder(products);
+    const result = OrderService.createOrder(products);
+
+    if (result instanceof ResponseException) {
+      return res.status(result.getStatusCode()).send(result);
+    }
 
     const responseBody = {
-      items: order.getItems().map(item => ({
+      items: result.getItems().map(item => ({
         productId: item.getProductId(),
         unitPrice: item.getUnitPrice().toDecimal(),
         quantity: item.getQuantity(),
@@ -31,9 +36,9 @@ class OrdersController {
         category: item.getCategory(),
         itemDiscounts: item.getItemDiscountsResponseModel()
       })),
-      discounts: order.getOrderDiscountsResponseModel(),
-      total: order.getTotal().toDecimal(),
-      subtotal: order.getSubtotal().toDecimal()
+      discounts: result.getOrderDiscountsResponseModel(),
+      total: result.getTotal().toDecimal(),
+      subtotal: result.getSubtotal().toDecimal()
     }
     return res.send(responseBody);
   }

@@ -4,26 +4,32 @@ import { products } from "../../db/products.ts";
 import Item from "../../models/Item.ts";
 import Order from "../../models/Order.ts";
 import { Money } from "../../models/Money.ts";
+import { ResponseException } from "../../exception/ResponseException.ts";
 
 class OrderService {
-  createOrder(request: CreateOrderReqModel) {
-    const items = request.items.map(item => {
-      const product = products.find(product => product.productId === item.productId);
-      if (!product) {
-        throw new Error("Product not found");
-      }
-      return new Item(product.productId, item.quantity, Money.fromDecimal(product.unitPrice, "BRL"), product.category);
-    });
-    const subTotal = items.reduce(
-      (acc, item) =>
-        item.getUnitPrice()
-          .multiply(item.getQuantity())
-          .add(acc),
-      Money.fromDecimal(0, "BRL")
-    );
-    const order = new Order(items, subTotal);
+  createOrder(request: CreateOrderReqModel): Order | ResponseException {
+    try {
+      const items = request.items.map(item => {
+        const product = products.find(product => product.productId === item.productId);
+        if (!product) {
+          throw new ResponseException("Product not found", 404);
+        }
+        return new Item(product.productId, item.quantity, Money.fromDecimal(product.unitPrice, "BRL"), product.category);
+      });
+      const subTotal = items.reduce(
+        (acc, item) =>
+          item.getUnitPrice()
+            .multiply(item.getQuantity())
+            .add(acc),
+        Money.fromDecimal(0, "BRL")
+      );
+      const order = new Order(items, subTotal);
 
-    return DiscountEngine.calculateAndApplyDiscounts(order);
+      return DiscountEngine.calculateAndApplyDiscounts(order);
+    } catch (error) {
+      if (error instanceof ResponseException) return error;
+      throw new ResponseException("Internal server error", 500);
+    }
   }
 }
 export default new OrderService();  

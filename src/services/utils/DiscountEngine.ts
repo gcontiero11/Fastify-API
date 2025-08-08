@@ -57,7 +57,7 @@ class DiscountEngine {
 
   private applyDiscountIntoOrder(order: Order, code: string) {
     const discount = this.getDiscountByCode(code);
-    const appliedDiscount = discount.applyInto(order.getSubtotal());
+    const appliedDiscount = discount.applyInto(order.getTotal());
     order.setTotal(appliedDiscount.amount);
     order.addAppliedDiscount(appliedDiscount);
   }

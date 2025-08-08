@@ -9,9 +9,12 @@ class OrdersController {
     const parseIn = createOrderSchema.safeParse(products);
 
     if (!parseIn.success) {
-      return res.status(400).send({
+      return res.status(422).send({
         message: "Invalid products",
-        errors: parseIn.error
+        errors: parseIn.error.issues.map(issue => ({
+          path: issue.path.join("."),
+          message: issue.message
+        }))
       })
     }
 

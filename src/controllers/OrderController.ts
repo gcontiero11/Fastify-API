@@ -4,7 +4,7 @@ import { createOrderSchema } from "../schemas/orderSchemas.ts";
 import OrderService from "../services/order/OrderService.ts";
 import { ResponseException } from "../exception/ResponseException.ts";
 
-class OrdersController {
+class OrderController {
   async createOrder(req: FastifyRequest, res: FastifyReply) {
     console.log(req.body);
     const products = req.body as CreateOrderReqModel;
@@ -44,4 +44,4 @@ class OrdersController {
   }
 }
 
-export default new OrdersController();
+export default new OrderController();

@@ -15,9 +15,11 @@ class DiscountEngine {
       total += item.getTotal();
     });
     order.setTotal(total);
-    
+    console.log("Total after item discounts:", total);
     this.applyQuantityDiscount(order);
+    console.log("Total after quantity discounts:", order.getTotal());
     this.applyDiscountByCartValue(order);
+    console.log("Total after cart value discounts:", order.getTotal());
     return order;
   }
 
@@ -62,9 +64,9 @@ class DiscountEngine {
   }
 
   private applyDiscountByCartValue(order: Order) {
-    if (order.getSubtotal() >= 2000) {
+    if (order.getTotal() >= 2000) {
       this.applyDiscountIntoOrder(order, "CART_VALUE_FIXED_150");
-    } else if (order.getSubtotal() >= 1000) {
+    } else if (order.getTotal() >= 1000) {
       this.applyDiscountIntoOrder(order, "CART_VALUE_FIXED_50");
     }
   }

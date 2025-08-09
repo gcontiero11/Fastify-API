@@ -1,5 +1,8 @@
-import type { AppliedDiscountInfos, AppliedDiscountResModel } from "../schemas/discountSchemas.ts";
-import { Money } from "./Money.ts";
+import type {
+  AppliedDiscountInfos,
+  AppliedDiscountResModel,
+} from "../schemas/discountSchemas";
+import { Money } from "./Money";
 
 class Item {
   private readonly productId: string;
@@ -51,11 +54,11 @@ class Item {
   }
 
   getItemDiscountsResponseModel(): AppliedDiscountResModel[] {
-    return this.itemDiscounts.map(discount => ({
+    return this.itemDiscounts.map((discount) => ({
       ...discount,
       fixed: discount.fixed.toDecimal(),
       basis: discount.basis.toDecimal(),
-      amount: discount.amount.toDecimal()
+      amount: discount.amount.toDecimal(),
     }));
   }
   getTotal(): Money {
@@ -69,4 +72,3 @@ class Item {
   }
 }
 export default Item;
-

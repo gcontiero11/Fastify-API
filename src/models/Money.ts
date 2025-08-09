@@ -47,16 +47,18 @@ export class Money {
     return new Money(Math.round(this.amount * factor), this.currency);
   }
 
-  format(locale: string = 'pt-BR'): string {
+  format(locale: string = "pt-BR"): string {
     return new Intl.NumberFormat(locale, {
-      style: 'currency',
+      style: "currency",
       currency: this.currency,
     }).format(this.toDecimal());
   }
 
   private assertSameCurrency(other: Money) {
     if (this.currency !== other.currency) {
-      throw new Error("Cannot operate on Money values with different currencies");
+      throw new Error(
+        "Cannot operate on Money values with different currencies",
+      );
     }
   }
 }

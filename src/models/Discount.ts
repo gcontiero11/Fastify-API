@@ -1,5 +1,8 @@
-import type { AppliedDiscountInfos, DiscountInfos } from "../schemas/discountSchemas.ts";
-import { Money } from "./Money.ts";
+import type {
+  AppliedDiscountInfos,
+  DiscountInfos,
+} from "../schemas/discountSchemas";
+import { Money } from "./Money";
 
 class Discount {
   private readonly code: string;
@@ -15,8 +18,12 @@ class Discount {
   }
 
   applyInto(basis: Money): AppliedDiscountInfos {
-    const amount = this.isFixedDiscount() ? this.applyFixed(basis) : this.applyRate(basis);
-    console.log(`Applying discount ${this.code} from ${basis} to ${amount} with rate ${this.rate} and fixed ${this.fixed}`);
+    const amount = this.isFixedDiscount()
+      ? this.applyFixed(basis)
+      : this.applyRate(basis);
+    console.log(
+      `Applying discount ${this.code} from ${basis} to ${amount} with rate ${this.rate} and fixed ${this.fixed}`,
+    );
     return {
       code: this.code,
       name: this.name,
@@ -24,7 +31,7 @@ class Discount {
       rate: this.rate,
       basis: basis,
       amount: amount,
-      metadata: {}
+      metadata: {},
     };
   }
 

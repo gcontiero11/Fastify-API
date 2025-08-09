@@ -1,6 +1,9 @@
-import type { AppliedDiscountInfos, AppliedDiscountResModel } from "../schemas/discountSchemas.ts";
-import type Item from "./Item.ts";
-import { Money } from "./Money.ts";
+import type {
+  AppliedDiscountInfos,
+  AppliedDiscountResModel,
+} from "../schemas/discountSchemas";
+import type Item from "./Item";
+import { Money } from "./Money";
 
 class Order {
   private readonly currency: string = "BRL";
@@ -35,11 +38,11 @@ class Order {
   }
 
   getOrderDiscountsResponseModel(): AppliedDiscountResModel[] {
-    return this.discounts.map(discount => ({
+    return this.discounts.map((discount) => ({
       ...discount,
       fixed: discount.fixed.toDecimal(),
       basis: discount.basis.toDecimal(),
-      amount: discount.amount.toDecimal()
+      amount: discount.amount.toDecimal(),
     }));
   }
 }

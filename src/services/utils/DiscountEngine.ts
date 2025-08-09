@@ -1,15 +1,15 @@
-import { discounts } from "../../db/discounts.ts";
-import Discount from "../../models/Discount.ts";
-import Item from "../../models/Item.ts";
-import Order from "../../models/Order.ts";
-import { Money } from "../../models/Money.ts";
+import { discounts } from "../../db/discounts";
+import Discount from "../../models/Discount";
+import Item from "../../models/Item";
+import Order from "../../models/Order";
+import { Money } from "../../models/Money";
 
 class DiscountEngine {
   calculateAndApplyDiscounts(order: Order): Order {
     const items = order.getItems();
     let total = Money.fromCents(0, "BRL");
 
-    items.forEach(item => {
+    items.forEach((item) => {
       this.applyDiscountsBy(item);
       total = total.add(item.getTotal());
     });
@@ -36,7 +36,9 @@ class DiscountEngine {
   }
 
   private applyQuantityDiscount(order: Order) {
-    const quantity = order.getItems().reduce((acc, item) => acc + item.getQuantity(), 0);
+    const quantity = order
+      .getItems()
+      .reduce((acc, item) => acc + item.getQuantity(), 0);
 
     if (quantity >= 50) {
       this.applyDiscountIntoOrder(order, "QTY_TIE_20PCT");
@@ -71,7 +73,7 @@ class DiscountEngine {
   }
 
   private getDiscountByCode(code: string): Discount {
-    const discountType = discounts.find(discount => discount.code === code);
+    const discountType = discounts.find((discount) => discount.code === code);
     if (!discountType) {
       throw new Error("Discount type not found");
     }
@@ -79,7 +81,7 @@ class DiscountEngine {
       code: discountType.code,
       name: discountType.name,
       fixed: discountType.fixed,
-      rate: discountType.rate
+      rate: discountType.rate,
     });
   }
 }

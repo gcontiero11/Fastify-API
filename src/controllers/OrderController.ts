@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { CreateOrderReqModel } from "../schemas/orderSchemas";
-import { createOrderSchema } from "../schemas/orderSchemas";
-import OrderService from "../services/order/OrderService";
+import type { CreateOrderReqModel } from "../core/schemas/order.schema";
+import { createOrderReqSchema } from "../core/schemas/order.schema";
+import OrderService from "../core/services/OrderService";
 import { ResponseException } from "../exception/ResponseException";
 
 class OrderController {
@@ -9,7 +9,7 @@ class OrderController {
     console.log(req.body);
     const products = req.body as CreateOrderReqModel;
 
-    const parseIn = createOrderSchema.safeParse(products);
+    const parseIn = createOrderReqSchema.safeParse(products);
 
     if (!parseIn.success) {
       return res.status(422).send({

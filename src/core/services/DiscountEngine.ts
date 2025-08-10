@@ -1,8 +1,8 @@
 import { discounts } from "../../prisma/discounts";
-import Discount from "../../models/Discount";
-import Item from "../../models/Item";
-import Order from "../../models/Order";
-import { Money } from "../../models/Money";
+import Discount from "../domain/Discount";
+import Item from "../domain/Item";
+import Order from "../domain/Order";
+import { Money } from "../utils/Money";
 
 class DiscountEngine {
   calculateAndApplyDiscounts(order: Order): Order {

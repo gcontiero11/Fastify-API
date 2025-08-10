@@ -1,9 +1,9 @@
 import type {
   AppliedDiscountInfos,
   AppliedDiscountResModel,
-} from "../schemas/discountSchemas";
+} from "../schemas/discount.schema";
 import type Item from "./Item";
-import { Money } from "./Money";
+import { Money } from "../utils/Money";
 
 class Order {
   private readonly currency: string = "BRL";

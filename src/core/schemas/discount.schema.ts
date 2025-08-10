@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { Money } from "../models/Money";
+import type { Money } from "../utils/Money";
 
 export const discountSchema = z.object({
   code: z.string(),

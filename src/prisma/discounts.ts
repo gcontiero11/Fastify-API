@@ -1,4 +1,4 @@
-import { Money } from "../models/Money";
+import { Money } from "../core/utils/Money";
 
 export const discounts = [
   {

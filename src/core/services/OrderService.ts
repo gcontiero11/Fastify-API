@@ -1,11 +1,11 @@
-import type { CreateOrderReqModel } from "../../schemas/orderSchemas";
-import DiscountEngine from "../utils/DiscountEngine";
-import Item from "../../models/Item";
-import Order from "../../models/Order";
-import { Money } from "../../models/Money";
+import type { CreateOrderReqModel } from "../schemas/order.schema";
+import DiscountEngine from "../services/DiscountEngine";
+import Item from "../domain/Item";
+import Order from "../domain/Order";
+import { Money } from "../utils/Money";
 import { ResponseException } from "../../exception/ResponseException";
 import { PrismaClient } from "@prisma/client";
-import { Product } from "../../generated/prisma";
+import type { Product } from "@prisma/client";
 
 const prisma = new PrismaClient();
 

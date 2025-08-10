@@ -1,7 +1,7 @@
-import Item from "../models/Item";
-import { Money } from "../models/Money";
-import Order from "../models/Order";
-import DiscountEngine from "../services/utils/DiscountEngine";
+import Item from "../core/domain/Item";
+import { Money } from "../core/utils/Money";
+import Order from "../core/domain/Order";
+import DiscountEngine from "../core/services/DiscountEngine";
 
 describe("DiscountEngine", () => {
   it.each([

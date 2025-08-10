@@ -1,8 +1,8 @@
 import type {
   AppliedDiscountInfos,
   DiscountInfos,
-} from "../schemas/discountSchemas";
-import { Money } from "./Money";
+} from "../schemas/discount.schema";
+import { Money } from "../utils/Money";
 
 class Discount {
   private readonly code: string;

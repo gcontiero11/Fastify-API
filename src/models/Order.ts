@@ -15,8 +15,7 @@ class Order {
   constructor(items: Item[]) {
     this.items = items;
     this.subtotal = items.reduce(
-      (acc, item) =>
-        item.getUnitPrice().multiply(item.getQuantity()).add(acc),
+      (acc, item) => item.getUnitPrice().multiply(item.getQuantity()).add(acc),
       Money.fromDecimal(0, "BRL"),
     );
   }

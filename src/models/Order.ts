@@ -12,9 +12,13 @@ class Order {
   private total: Money = Money.fromCents(0, "BRL");
   private readonly subtotal: Money;
 
-  constructor(items: Item[], subtotal: Money) {
+  constructor(items: Item[]) {
     this.items = items;
-    this.subtotal = subtotal;
+    this.subtotal = items.reduce(
+      (acc, item) =>
+        item.getUnitPrice().multiply(item.getQuantity()).add(acc),
+      Money.fromDecimal(0, "BRL"),
+    );
   }
 
   getSubtotal(): Money {

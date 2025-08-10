@@ -23,12 +23,8 @@ class OrderService {
           product.category,
         );
       });
-      const subTotal = items.reduce(
-        (acc, item) =>
-          item.getUnitPrice().multiply(item.getQuantity()).add(acc),
-        Money.fromDecimal(0, "BRL"),
-      );
-      const order = new Order(items, subTotal);
+
+      const order = new Order(items);
 
       return DiscountEngine.calculateAndApplyDiscounts(order);
     } catch (error) {

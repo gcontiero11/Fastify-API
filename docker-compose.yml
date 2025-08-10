@@ -1,0 +1,10 @@
+services:
+  postgres:
+    container_name: salespace-postgres
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: salespace
+      POSTGRES_PASSWORD: salespacepass
+      POSTGRES_DB: salespacedb
+    ports:
+      - "5432:5432"

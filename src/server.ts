@@ -6,7 +6,7 @@ export const app = Fastify();
 
 app.register(routes);
 
-function quit(error: any) {
+function quit(error: Error | unknown) {
   console.error(error);
   process.exit(1);
 }

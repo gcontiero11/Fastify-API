@@ -9,9 +9,15 @@ export async function resetDb() {
   await prisma.product.deleteMany();
 
   await prisma.discount.createMany({
-    data: discounts,
+    data: discounts.map((discount) => ({
+      ...discount,
+      fixed: discount.fixed.getAmount(),
+    })),
   });
   await prisma.product.createMany({
-    data: products,
+    data: products.map((product) => ({
+      ...product,
+      unitPrice: product.unitPrice.getAmount(),
+    })),
   });
 }

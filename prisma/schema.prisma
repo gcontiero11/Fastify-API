@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -17,7 +16,7 @@ datasource db {
 model Discount {
   code      String   @id
   name      String
-  fixed     Float
+  fixed     Int
   rate      Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

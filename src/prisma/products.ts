@@ -1,52 +1,54 @@
+import { Money } from "../models/Money";
+
 export const products = [
   {
     productId: "sku-001",
-    unitPrice: 20.99,
+    unitPrice: Money.fromDecimal(20.99, "BRL"),
     category: "acessorios",
   },
   {
     productId: "sku-002",
-    unitPrice: 15.49,
+    unitPrice: Money.fromDecimal(15.49, "BRL"),
     category: "acessorios",
   },
   {
     productId: "sku-003",
-    unitPrice: 9.75,
+    unitPrice: Money.fromDecimal(9.75, "BRL"),
     category: "",
   },
   {
     productId: "sku-004",
-    unitPrice: 32.0,
+    unitPrice: Money.fromDecimal(32.0, "BRL"),
     category: "acessorios",
   },
   {
     productId: "sku-005",
-    unitPrice: 12.6,
+    unitPrice: Money.fromDecimal(12.6, "BRL"),
     category: "acessorios",
   },
   {
     productId: "sku-006",
-    unitPrice: 8.99,
+    unitPrice: Money.fromDecimal(8.99, "BRL"),
     category: "",
   },
   {
     productId: "sku-007",
-    unitPrice: 44.3,
+    unitPrice: Money.fromDecimal(44.3, "BRL"),
     category: "vestuario",
   },
   {
     productId: "sku-008",
-    unitPrice: 27.15,
+    unitPrice: Money.fromDecimal(27.15, "BRL"),
     category: "",
   },
   {
     productId: "sku-009",
-    unitPrice: 18.9,
+    unitPrice: Money.fromDecimal(18.9, "BRL"),
     category: "fitness",
   },
   {
     productId: "sku-010",
-    unitPrice: 39.99,
+    unitPrice: Money.fromDecimal(39.99, "BRL"),
     category: "",
   },
 ];

@@ -21,7 +21,7 @@ class OrderController {
       });
     }
 
-    const result = OrderService.createOrder(products);
+    const result = await OrderService.createOrder(products);
 
     if (result instanceof ResponseException) {
       return res.status(result.getStatusCode()).send(result);

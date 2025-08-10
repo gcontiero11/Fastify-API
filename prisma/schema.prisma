@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
 }
 
 datasource db {
@@ -20,6 +20,8 @@ model Discount {
   rate      Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  appliedDiscounts AppliedDiscount[]
 }
 
 model Product {
@@ -29,4 +31,45 @@ model Product {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
+  items     Item[]
+}
+
+model Quote {
+  id         String   @id @default(uuid())
+  publicId   String   @unique
+  validUntil DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  items Item[]
+}
+
+model AppliedDiscount {
+  id        String   @id @default(uuid())
+  itemId    String
+  code      String
+  name      String
+  basis     Int
+  amount    Int
+  metadata  Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  discount Discount @relation(fields: [code], references: [code], onDelete: Cascade)
+  Item     Item     @relation(fields: [itemId], references: [id])
+}
+
+model Item {
+  id        String   @id @default(uuid())
+  productId String
+  subtotal  Int
+  total     Int
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  appliedDiscounts AppliedDiscount[]
+  product          Product           @relation(fields: [productId], references: [productId], onDelete: Cascade)
+  Quote            Quote?            @relation(fields: [quoteId], references: [id])
+  quoteId          String?
 }

@@ -28,6 +28,7 @@
     "jest": "^29.7.0",
     "jiti": "^2.5.1",
     "prettier": "^3.6.2",
+    "prisma": "^6.13.0",
     "ts-jest": "^29.4.1",
     "tsx": "^4.20.3",
     "typescript": "^5.9.2",
@@ -38,6 +39,7 @@
     "eslint": "^9.33.0"
   },
   "dependencies": {
+    "@prisma/client": "^6.13.0",
     "eslint-plugin-jest": "^29.0.1"
   }
 }

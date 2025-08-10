@@ -1,4 +1,4 @@
-import { discounts } from "../../db/discounts";
+import { discounts } from "../../prisma/discounts";
 import Discount from "../../models/Discount";
 import Item from "../../models/Item";
 import Order from "../../models/Order";

@@ -1,6 +1,6 @@
 import type { CreateOrderReqModel } from "../../schemas/orderSchemas";
 import DiscountEngine from "../utils/DiscountEngine";
-import { products } from "../../db/products";
+import { products } from "../../prisma/products";
 import Item from "../../models/Item";
 import Order from "../../models/Order";
 import { Money } from "../../models/Money";

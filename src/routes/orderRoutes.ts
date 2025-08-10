@@ -6,4 +6,8 @@ export default async function orderRoutes(app: FastifyInstance) {
     preHandler: [],
     handler: OrderController.createOrder,
   });
+  app.post("/quote", {
+    preHandler: [],
+    handler: OrderController.createQuote,
+  });
 }

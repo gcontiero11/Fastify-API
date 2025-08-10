@@ -42,6 +42,17 @@ class OrderController {
     };
     return res.send(responseBody);
   }
+
+  async createQuote(req: FastifyRequest, res: FastifyReply) {
+    const products = req.body as CreateOrderReqModel;
+    const result = await OrderService.createQuote(products);
+
+    if (result instanceof ResponseException) {
+      return res.status(result.getStatusCode()).send(result);
+    }
+
+    return res.send(result);
+  }
 }
 
 export default new OrderController();

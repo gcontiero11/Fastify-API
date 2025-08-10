@@ -4,7 +4,7 @@ import { itemSchema } from "./item.schema";
 import { productReqSchema } from "./product.schema";
 
 export const createOrderReqSchema = z.object({
-  items: z.array(productReqSchema),
+  requestedProducts: z.array(productReqSchema),
 });
 
 export const createOrderResSchema = z.object({

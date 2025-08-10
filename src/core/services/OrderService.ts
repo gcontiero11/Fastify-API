@@ -4,26 +4,23 @@ import Item from "../domain/Item";
 import Order from "../domain/Order";
 import { Money } from "../utils/Money";
 import { ResponseException } from "../../exception/ResponseException";
-import { PrismaClient } from "@prisma/client";
 import type { Product } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import ProductRepository from "../repositories/ProductRepository";
 
 class OrderService {
   async createOrder(
     request: CreateOrderReqModel,
   ): Promise<Order | ResponseException> {
     try {
-      const products: Product[] = await prisma.product.findMany({
-        where: {
-          productId: {
-            in: request.items.map((item) => item.productId),
-          },
-        },
-      });
+      const products: Product[] = await ProductRepository.findByProductIds(
+        request.items.map((item) => item.productId),
+      );
+
+      if (products.length !== request.items.length) {
+        throw new ResponseException("Product not found", 404);
+      }
 
       const items: Item[] = [];
-
       for (const item of request.items) {
         const product = products.find((p) => p.productId === item.productId);
 

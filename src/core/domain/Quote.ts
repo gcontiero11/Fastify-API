@@ -1,18 +1,28 @@
+import {
+  AppliedDiscountInfos,
+  AppliedDiscountResModel,
+} from "../schemas/discount.schema";
 import Item from "./Item";
 import { v4 as uuidv4 } from "uuid";
+import { Money } from "../utils/Money";
 
 class Quote {
-  private publicId: string = `QUOTE-${uuidv4()}`;
-  private validUntil: Date = new Date(Date.now());
-
+  public validUntil: Date = new Date(Date.now());
   constructor(
-    private readonly items: Item[],
-    publicId?: string,
+    public readonly currency: string = "BRL",
+    public readonly subtotal: Money,
+    public readonly total: Money,
+    public readonly items: Item[],
+    public readonly discounts: AppliedDiscountInfos[] = [],
+    public readonly publicId: string = `QUOTE-${uuidv4()}`,
     validUntil?: Date,
   ) {
+    this.currency = currency;
+    this.subtotal = subtotal;
+    this.total = total;
     this.items = items;
-    this.publicId = publicId ?? `QUOTE-${uuidv4()}`;
-
+    this.discounts = discounts;
+    this.publicId = publicId;
     if (validUntil) {
       this.validUntil = validUntil;
     } else {
@@ -20,20 +30,13 @@ class Quote {
     }
   }
 
-  getPublicId(): string {
-    return this.publicId;
-  }
-
-  getValidUntil(): Date {
-    return this.validUntil;
-  }
-
-  getItems(): Item[] {
-    return this.items;
-  }
-
-  addItem(item: Item): void {
-    this.items.push(item);
+  getDiscountsResponseModel(): AppliedDiscountResModel[] {
+    return this.discounts.map((discount) => ({
+      ...discount,
+      fixed: discount.fixed.toDecimal(),
+      amount: discount.amount.toDecimal(),
+      basis: discount.basis.toDecimal(),
+    }));
   }
 }
 

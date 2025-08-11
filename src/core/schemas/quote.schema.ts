@@ -7,7 +7,7 @@ export const quoteSchema = z.object({
   items: z.array(itemSchema),
   discounts: z.array(appliedDiscountResSchema),
   quoteKey: z.string(),
-  validUntil: z.date(),
+  validUntil: z.string(),
   total: z.number(),
   subtotal: z.number(),
 });

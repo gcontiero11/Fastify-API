@@ -34,7 +34,7 @@ class QuoteMapper {
       items: quote.items.map((item) => ItemMapper.toResModel(item)),
       discounts: quote.getDiscountsResponseModel(),
       quoteKey: quote.quoteKey,
-      validUntil: quote.validUntil,
+      validUntil: `${quote.validUntil.getDate()}-${quote.validUntil.getMonth()}-${quote.validUntil.getFullYear()}`,
       subtotal: quote.subtotal.toDecimal(),
       total: quote.total.toDecimal(),
     };

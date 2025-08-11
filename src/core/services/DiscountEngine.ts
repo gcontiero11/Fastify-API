@@ -91,7 +91,7 @@ class DiscountEngine {
   private generateMetadata(discount: Discount, order: Order) {
     if (this.isFixedDiscount(discount)) {
       return {
-        message: `cart value = R$${order.getTotal().toDecimal()} >= R$${discount.getFixed().toDecimal()} = R$${discount.getFixed().toDecimal()} fixed discount`,
+        message: `cart value = R$${order.getTotal().toDecimal()} >= R$${discount.getFixed().toDecimal() === 50 ? "1000" : "2000"} = R$${discount.getFixed().toDecimal()} fixed discount`,
       };
     }
     const numberOfUnits = order

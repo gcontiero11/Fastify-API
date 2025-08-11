@@ -26,8 +26,10 @@ class OrderController {
     let result: Order | ResponseException;
 
     if (quoteKey) {
+      console.log(`\n\n======= Criando pedido a partir de uma cotação =======`);
       result = await OrderService.createOrderFromQuote(quoteKey);
     } else {
+      console.log(`\n\n======= Criando pedido =======`);
       result = await OrderService.createOrder(products);
     }
 
@@ -53,6 +55,7 @@ class OrderController {
         })),
       });
     }
+    console.log(`\n\n======= Criando cotação =======`);
     const result = await OrderService.createQuote(products);
 
     if (result instanceof ResponseException) {

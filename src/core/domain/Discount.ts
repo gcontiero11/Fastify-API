@@ -9,6 +9,7 @@ class Discount {
   private readonly name: string;
   private readonly fixed: Money;
   private readonly rate: number;
+  private metadata: object = {};
 
   constructor(discount: DiscountInfos) {
     this.code = discount.code;
@@ -28,7 +29,7 @@ class Discount {
       rate: this.rate,
       basis: basis,
       amount: amount,
-      metadata: {},
+      metadata: this.metadata,
     };
   }
 
@@ -58,6 +59,14 @@ class Discount {
 
   getRate(): number {
     return this.rate;
+  }
+
+  setMetadata(metadata: object): void {
+    this.metadata = metadata;
+  }
+
+  getMetadata(): object {
+    return this.metadata;
   }
 }
 

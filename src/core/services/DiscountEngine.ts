@@ -10,7 +10,7 @@ class DiscountEngine {
     let total = Money.fromCents(0, "BRL");
 
     items.forEach((item) => {
-      this.applyDiscountsBy(item);
+      this.applyCategoryDiscountBy(item);
       total = total.add(item.getTotal());
     });
     order.setTotal(total);
@@ -19,11 +19,7 @@ class DiscountEngine {
     return order;
   }
 
-  private applyDiscountsBy(item: Item) {
-    this.applyCategoryDiscount(item);
-  }
-
-  private applyCategoryDiscount(item: Item) {
+  private applyCategoryDiscountBy(item: Item) {
     const isAccessory = item.getCategory() === "acessorios";
     const meetsQuantity = item.getQuantity() > 5;
 
@@ -48,14 +44,24 @@ class DiscountEngine {
 
   private applyDiscountIntoItem(item: Item, code: string) {
     const discount = this.getDiscountByCode(code);
+    discount.setMetadata(
+      this.generateMetadataForCategoryDiscount(item.getQuantity()),
+    );
     const appliedDiscount = discount.applyInto(item.getTotal());
 
     item.setTotal(appliedDiscount.amount);
     item.addAppliedDiscount(appliedDiscount);
   }
 
+  private generateMetadataForCategoryDiscount(units: number): object {
+    return {
+      message: `number of acessories items => ${units} > 5 units = 5% discount`,
+    };
+  }
+
   private applyDiscountIntoOrder(order: Order, code: string) {
     const discount = this.getDiscountByCode(code);
+    discount.setMetadata(this.generateMetadata(discount, order));
     const appliedDiscount = discount.applyInto(order.getTotal());
     order.setTotal(appliedDiscount.amount);
     order.addAppliedDiscount(appliedDiscount);
@@ -80,6 +86,38 @@ class DiscountEngine {
       fixed: discountType.fixed,
       rate: discountType.rate,
     });
+  }
+
+  private generateMetadata(discount: Discount, order: Order) {
+    if (this.isFixedDiscount(discount)) {
+      return {
+        message: `cart value = R$${order.getTotal().toDecimal()} >= R$${discount.getFixed().toDecimal()} = R$${discount.getFixed().toDecimal()} fixed discount`,
+      };
+    }
+    const numberOfUnits = order
+      .getItems()
+      .reduce((acc, item) => acc + item.getQuantity(), 0);
+
+    const tier =
+      numberOfUnits >= 50
+        ? 50
+        : numberOfUnits >= 20
+          ? 20
+          : numberOfUnits >= 10
+            ? 10
+            : 0;
+
+    return {
+      message: `Items quantity ${numberOfUnits} >= ${tier} = ${discount.getRate() * 100}% discount`,
+    };
+  }
+
+  private isFixedDiscount(discount: Discount) {
+    return discount.getFixed().toDecimal() > 0;
+  }
+
+  private isCategoryDiscount(discount: Discount) {
+    return discount.getRate() > 0.05;
   }
 }
 

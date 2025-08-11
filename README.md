@@ -199,19 +199,6 @@ Cria uma cotação com cálculo automático de descontos.
 }
 ```
 
-**Resposta de Erro (422):**
-```json
-{
-  "message": "Invalid products",
-  "errors": [
-    {
-      "path": "string",
-      "message": "string"
-    }
-  ]
-}
-```
-
 ### 📋 Descrição dos Campos
 
 #### Produto Solicitado (`requestedProducts`)

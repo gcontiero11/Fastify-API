@@ -49,8 +49,10 @@ class QuoteMapper {
     return new Quote(
       Money.fromCents(quote.subtotal, "BRL"),
       Money.fromCents(quote.total, "BRL"),
-      items.map((item) =>{
-        const discountAppliedInThisItem = discountsAtItems.filter((discount) => discount.itemId === item.id);
+      items.map((item) => {
+        const discountAppliedInThisItem = discountsAtItems.filter(
+          (discount) => discount.itemId === item.id,
+        );
         return ItemMapper.toDomain(item, discountAppliedInThisItem);
       }),
       discountsAtQuote.map((discount) =>

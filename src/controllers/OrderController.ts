@@ -9,7 +9,6 @@ import Order from "../core/domain/Order";
 
 class OrderController {
   async createOrder(req: FastifyRequest, res: FastifyReply) {
-    console.log(req.body);
     const products = req.body as CreateOrderReqModel;
     const { quoteKey } = req.query as { quoteKey: string };
 
@@ -41,7 +40,6 @@ class OrderController {
   }
 
   async createQuote(req: FastifyRequest, res: FastifyReply) {
-    console.log(req.body);
     const products = req.body as CreateOrderReqModel;
 
     const parseIn = createOrderReqSchema.safeParse(products);

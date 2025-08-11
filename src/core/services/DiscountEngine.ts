@@ -14,11 +14,8 @@ class DiscountEngine {
       total = total.add(item.getTotal());
     });
     order.setTotal(total);
-    console.log("Total after item discounts:", total);
     this.applyQuantityDiscount(order);
-    console.log("Total after quantity discounts:", order.getTotal());
     this.applyDiscountByCartValue(order);
-    console.log("Total after cart value discounts:", order.getTotal());
     return order;
   }
 

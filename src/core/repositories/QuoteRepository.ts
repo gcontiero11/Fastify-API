@@ -14,7 +14,7 @@ class QuoteRepository {
 
       return quote;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       if (error instanceof ResponseException) {
         return error;
       }
@@ -60,7 +60,7 @@ class QuoteRepository {
         discountsAtQuote,
       );
     } catch (error) {
-      console.log(error);
+      console.error(error);
       if (error instanceof ResponseException) {
         return error;
       }

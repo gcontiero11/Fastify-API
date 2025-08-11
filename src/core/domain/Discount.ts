@@ -21,9 +21,6 @@ class Discount {
     const amount = this.isFixedDiscount()
       ? this.applyFixed(basis)
       : this.applyRate(basis);
-    console.log(
-      `Applying discount ${this.code} from ${basis} to ${amount} with rate ${this.rate} and fixed ${this.fixed}`,
-    );
     return {
       code: this.code,
       name: this.name,

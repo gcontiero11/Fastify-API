@@ -102,7 +102,7 @@ Cria um novo pedido com cálculo automático de descontos.
 **Parâmetros de Query (Opcional):**
 - `quoteKey` (string): Chave de uma cotação existente para criar pedido a partir dela
 
-**Resposta de Sucesso (200):**
+**Resposta de Sucesso (201):**
 ```json
 {
   "currency": "BRL",
@@ -137,8 +137,8 @@ Cria um novo pedido com cálculo automático de descontos.
       "metadata": "object"
     }
   ],
-  "total": "number",
-  "subtotal": "number"
+  "subtotal": "number",
+  "total": "number"
 }
 ```
 
@@ -157,10 +157,9 @@ Cria uma cotação com cálculo automático de descontos.
 }
 ```
 
-**Resposta de Sucesso (200):**
+**Resposta de Sucesso (201):**
 ```json
 {
-  "quoteKey": "string",
   "currency": "BRL",
   "items": [
     {
@@ -193,9 +192,10 @@ Cria uma cotação com cálculo automático de descontos.
       "metadata": "object"
     }
   ],
-  "total": "number",
+  "quoteKey": "string",
+  "validUntil": "string (dd-MM-YYYY)",
   "subtotal": "number",
-  "validUntil": "string (dd-MM-YYYY)"
+  "total": "number"
 }
 ```
 
@@ -216,16 +216,16 @@ Cria uma cotação com cálculo automático de descontos.
 #### Desconto Aplicado
 - `code` (string): Código do desconto
 - `name` (string): Nome do desconto
-- `fixed` (number): Valor fixo do desconto em centavos
+- `fixed` (number): Valor fixo do desconto
 - `rate` (number): Taxa percentual do desconto (0.0 a 1.0)
-- `basis` (number): Valor base para cálculo do desconto em centavos
-- `amount` (number): Valor final após desconto em centavos
+- `basis` (number): Valor base para cálculo do desconto
+- `amount` (number): Valor final após desconto
 - `metadata` (object): Informações adicionais sobre o desconto
 
 #### Resposta Geral
 - `currency` (string): Moeda utilizada (sempre "BRL")
-- `total` (number): Valor total final em centavos
-- `subtotal` (number): Subtotal sem descontos em centavos
+- `total` (number): Valor total final
+- `subtotal` (number): Subtotal sem descontos
 - `quoteKey` (string): Chave única da cotação (apenas para quotes)
 - `validUntil` (string): Data de validade da cotação (apenas para quotes)
 

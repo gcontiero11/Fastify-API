@@ -38,7 +38,7 @@ class OrderController {
     }
 
     const responseBody = OrderMapper.toResModel(result);
-    return res.send(responseBody);
+    return res.status(201).send(responseBody);
   }
 
   async createQuote(req: FastifyRequest, res: FastifyReply) {
@@ -63,7 +63,7 @@ class OrderController {
     }
 
     const responseBody = QuoteMapper.toResModel(result);
-    return res.send(responseBody);
+    return res.status(201).send(responseBody);
   }
 }
 

@@ -5,6 +5,8 @@ import { products } from "./products";
 const prisma = new PrismaClient();
 
 export async function resetDb() {
+  console.log("Resetting database...");
+
   await prisma.discount.deleteMany();
   await prisma.product.deleteMany();
   await prisma.quote.deleteMany();

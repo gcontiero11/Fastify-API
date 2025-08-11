@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { itemSchema } from "./item.schema";
+import { itemResSchema } from "./item.schema";
 import { appliedDiscountResSchema } from "./discount.schema";
 
-export const quoteSchema = z.object({
+export const quoteResSchema = z.object({
   currency: z.string(),
-  items: z.array(itemSchema),
+  items: z.array(itemResSchema),
   discounts: z.array(appliedDiscountResSchema),
   quoteKey: z.string(),
   validUntil: z.string(),
@@ -12,4 +12,4 @@ export const quoteSchema = z.object({
   subtotal: z.number(),
 });
 
-export type QuoteResModel = z.infer<typeof quoteSchema>;
+export type QuoteResModel = z.infer<typeof quoteResSchema>;

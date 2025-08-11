@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { appliedDiscountResSchema, discountSchema } from "./discount.schema";
-import { itemSchema } from "./item.schema";
+import { itemResSchema } from "./item.schema";
 import { productReqSchema } from "./product.schema";
 
 export const createOrderReqSchema = z.object({
@@ -9,7 +9,7 @@ export const createOrderReqSchema = z.object({
 
 export const createOrderResSchema = z.object({
   currency: z.string(),
-  items: z.array(itemSchema),
+  items: z.array(itemResSchema),
   discounts: z.array(appliedDiscountResSchema),
   total: z.number(),
   subtotal: z.number(),

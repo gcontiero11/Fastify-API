@@ -1,7 +1,7 @@
-import type { FastifyInstance } from "fastify";
+import type { FastifyTypedInstance } from "../types/types";
 import orderRoutes from "./orderRoutes";
 
-export default async function (app: FastifyInstance) {
+export default async function (app: FastifyTypedInstance) {
   app.get("/ping", (req, res) => {
     res.send("pong");
   });

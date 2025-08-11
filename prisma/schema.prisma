@@ -71,6 +71,7 @@ model Item {
   productId String
   subtotal  Int
   total     Int
+  unitPrice Int
   quantity  Int
   category  String
   createdAt DateTime @default(now())

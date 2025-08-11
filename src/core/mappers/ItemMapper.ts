@@ -1,7 +1,12 @@
-import { Prisma } from "@prisma/client";
+import {
+  Prisma,
+  Item as PrismaItem,
+  AppliedDiscount as PrismaAppliedDiscount,
+} from "@prisma/client";
 import Item from "../domain/Item";
 import AppliedDiscountsMapper from "./AppliedDiscountsMapper";
 import { ItemResModel } from "../schemas/item.schema";
+import { Money } from "../utils/Money";
 
 class ItemMapper {
   toPrisma(item: Item): Prisma.ItemCreateWithoutQuoteInput {
@@ -10,6 +15,7 @@ class ItemMapper {
       subtotal: item.getSubtotal().getAmount(),
       total: item.getTotal().getAmount(),
       category: item.getCategory(),
+      unitPrice: item.getUnitPrice().getAmount(),
       product: {
         connect: {
           productId: item.getProductId(),
@@ -32,6 +38,18 @@ class ItemMapper {
       category: item.getCategory(),
       itemDiscounts: item.getItemDiscountsResponseModel(),
     };
+  }
+
+  toDomain(item: PrismaItem, discounts: PrismaAppliedDiscount[]): Item {
+    return new Item(
+      item.productId,
+      item.quantity,
+      Money.fromCents(item.unitPrice, "BRL"),
+      item.category,
+      discounts.map((discount) => AppliedDiscountsMapper.toDomain(discount)),
+      Money.fromCents(item.subtotal, "BRL"),
+      Money.fromCents(item.total, "BRL"),
+    );
   }
 }
 

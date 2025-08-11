@@ -8,16 +8,17 @@ import { Money } from "../utils/Money";
 
 class Quote {
   public validUntil: Date = new Date(Date.now());
+  public currency: string;
   constructor(
-    public readonly currency: string = "BRL",
     public readonly subtotal: Money,
     public readonly total: Money,
     public readonly items: Item[],
     public readonly discounts: AppliedDiscountInfos[] = [],
     public readonly quoteKey: string = `QUOTE-${uuidv4()}`,
     validUntil?: Date,
+    currency?: string,
   ) {
-    this.currency = currency;
+    this.currency = currency || "BRL";
     this.subtotal = subtotal;
     this.total = total;
     this.items = items;

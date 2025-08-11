@@ -8,9 +8,9 @@ import { Money } from "../utils/Money";
 class Order {
   private readonly currency: string = "BRL";
   private readonly items: Item[];
-  private readonly discounts: AppliedDiscountInfos[] = [];
+  private discounts: AppliedDiscountInfos[] = [];
   private total: Money = Money.fromCents(0, "BRL");
-  private readonly subtotal: Money;
+  private subtotal: Money;
 
   constructor(items: Item[]) {
     this.items = items;
@@ -32,8 +32,17 @@ class Order {
   setTotal(total: Money): void {
     this.total = total;
   }
+
+  setSubtotal(subtotal: Money): void {
+    this.subtotal = subtotal;
+  }
+
   getCurrency(): string {
     return this.currency;
+  }
+
+  setDiscounts(discounts: AppliedDiscountInfos[]): void {
+    this.discounts = discounts;
   }
 
   addAppliedDiscount(appliedDiscount: AppliedDiscountInfos): void {

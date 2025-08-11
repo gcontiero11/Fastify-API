@@ -19,13 +19,15 @@ class Item {
     unitPrice: Money,
     category: string,
     itemDiscounts: AppliedDiscountInfos[] = [],
+    subtotal?: Money,
+    total?: Money,
   ) {
     this.productId = productId;
     this.quantity = quantity;
     this.unitPrice = unitPrice;
     this.category = category;
-    this.subtotal = unitPrice.multiply(quantity);
-    this.total = this.subtotal;
+    this.subtotal = subtotal || unitPrice.multiply(quantity);
+    this.total = total || this.subtotal;
     this.itemDiscounts = itemDiscounts;
   }
 

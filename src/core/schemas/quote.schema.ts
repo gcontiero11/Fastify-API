@@ -6,7 +6,7 @@ export const quoteSchema = z.object({
   currency: z.string(),
   items: z.array(itemSchema),
   discounts: z.array(appliedDiscountResSchema),
-  publicId: z.string(),
+  quoteKey: z.string(),
   validUntil: z.date(),
   total: z.number(),
   subtotal: z.number(),

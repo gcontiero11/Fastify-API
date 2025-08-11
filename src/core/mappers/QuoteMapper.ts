@@ -7,7 +7,7 @@ import { QuoteResModel } from "../schemas/quote.schema";
 class QuoteMapper {
   toPrisma(quote: Quote): Prisma.QuoteCreateInput {
     return {
-      publicId: quote.publicId,
+      quoteKey: quote.quoteKey,
       validUntil: quote.validUntil,
       subtotal: quote.subtotal.getAmount(),
       total: quote.total.getAmount(),
@@ -27,7 +27,7 @@ class QuoteMapper {
       currency: quote.currency,
       items: quote.items.map((item) => ItemMapper.toResModel(item)),
       discounts: quote.getDiscountsResponseModel(),
-      publicId: quote.publicId,
+      quoteKey: quote.quoteKey,
       validUntil: quote.validUntil,
       subtotal: quote.subtotal.toDecimal(),
       total: quote.total.toDecimal(),

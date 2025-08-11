@@ -36,7 +36,7 @@ model Product {
 
 model Quote {
   id         String   @id @default(uuid())
-  publicId   String   @unique
+  quoteKey   String   @unique
   validUntil DateTime
   subtotal   Int
   total      Int

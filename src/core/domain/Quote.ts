@@ -14,7 +14,7 @@ class Quote {
     public readonly total: Money,
     public readonly items: Item[],
     public readonly discounts: AppliedDiscountInfos[] = [],
-    public readonly publicId: string = `QUOTE-${uuidv4()}`,
+    public readonly quoteKey: string = `QUOTE-${uuidv4()}`,
     validUntil?: Date,
   ) {
     this.currency = currency;
@@ -22,7 +22,7 @@ class Quote {
     this.total = total;
     this.items = items;
     this.discounts = discounts;
-    this.publicId = publicId;
+    this.quoteKey = quoteKey;
     if (validUntil) {
       this.validUntil = validUntil;
     } else {

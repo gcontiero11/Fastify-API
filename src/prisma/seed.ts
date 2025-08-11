@@ -7,6 +7,9 @@ const prisma = new PrismaClient();
 export async function resetDb() {
   await prisma.discount.deleteMany();
   await prisma.product.deleteMany();
+  await prisma.quote.deleteMany();
+  await prisma.appliedDiscount.deleteMany();
+  await prisma.item.deleteMany();
 
   await prisma.discount.createMany({
     data: discounts.map((discount) => ({

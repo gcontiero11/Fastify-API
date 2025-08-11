@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { discountSchema } from "./discount.schema";
+import { appliedDiscountResSchema, discountSchema } from "./discount.schema";
 import { itemSchema } from "./item.schema";
 import { productReqSchema } from "./product.schema";
 
@@ -8,9 +8,11 @@ export const createOrderReqSchema = z.object({
 });
 
 export const createOrderResSchema = z.object({
+  currency: z.string(),
   items: z.array(itemSchema),
-  discounts: z.array(discountSchema),
+  discounts: z.array(appliedDiscountResSchema),
   total: z.number(),
+  subtotal: z.number(),
 });
 
 export type CreateOrderReqModel = z.infer<typeof createOrderReqSchema>;

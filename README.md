@@ -85,11 +85,11 @@ Este projeto inclui uma coleção do **Postman** para facilitar os testes das re
 
 ---
 
-## 📚 Tecnologias [Utiliza](https://fastify.dev/)das
+## 📚 Tecnologias Utilizadas
 
-* [Fastify](https://fastify.dev/) — Framework web rápido e eficiente par[a Node](https://www.prisma.io/).js.
-* [Prisma](https://www.prisma.io/) — ORM moderno e tipado para banco[ de dados.](https://www.postgresql.org/)
-* [PostgreSQL](https://www.postgresql.org/) — Banco de dados r[elacio](https://www.docker.com/)nal.
-* [Docker](https://www.docker.com/) — Para containerização[ do ba](https://eslint.org/)nco.
-* [ESLint](https://eslint.org/) — Padronização e qualidade [de c](https://jestjs.io/)ódigo.
+* [Fastify](https://fastify.dev/) — Framework web rápido e eficiente para Node.js.
+* [Prisma](https://www.prisma.io/) — ORM moderno e tipado para banco de dados.
+* [PostgreSQL](https://www.postgresql.org/) — Banco de dados relacional.
+* [Docker](https://www.docker.com/) — Para containerização do banco.
+* [ESLint](https://eslint.org/) — Padronização e qualidade de código.
 * [Jest](https://jestjs.io/) — Testes unitários.

@@ -32,6 +32,10 @@ class Order {
   setTotal(total: Money): void {
     this.total = total;
   }
+  getCurrency(): string {
+    return this.currency;
+  }
+
   addAppliedDiscount(appliedDiscount: AppliedDiscountInfos): void {
     this.discounts.push(appliedDiscount);
   }

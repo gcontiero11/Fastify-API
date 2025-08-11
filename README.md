@@ -102,7 +102,7 @@ Cria um novo pedido com cálculo automático de descontos.
 **Parâmetros de Query (Opcional):**
 - `quoteKey` (string): Chave de uma cotação existente para criar pedido a partir dela
 
-**Resposta de Sucesso (200):**
+**Resposta de Sucesso (201):**
 ```json
 {
   "currency": "BRL",
@@ -137,8 +137,8 @@ Cria um novo pedido com cálculo automático de descontos.
       "metadata": "object"
     }
   ],
-  "total": "number",
-  "subtotal": "number"
+  "subtotal": "number",
+  "total": "number"
 }
 ```
 
@@ -157,10 +157,9 @@ Cria uma cotação com cálculo automático de descontos.
 }
 ```
 
-**Resposta de Sucesso (200):**
+**Resposta de Sucesso (201):**
 ```json
 {
-  "quoteKey": "string",
   "currency": "BRL",
   "items": [
     {
@@ -193,9 +192,10 @@ Cria uma cotação com cálculo automático de descontos.
       "metadata": "object"
     }
   ],
-  "total": "number",
+  "quoteKey": "string",
+  "validUntil": "string (dd-MM-YYYY)",
   "subtotal": "number",
-  "validUntil": "string (dd-MM-YYYY)"
+  "total": "number"
 }
 ```
 

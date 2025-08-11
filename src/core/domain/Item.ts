@@ -18,6 +18,7 @@ class Item {
     quantity: number,
     unitPrice: Money,
     category: string,
+    itemDiscounts: AppliedDiscountInfos[] = [],
   ) {
     this.productId = productId;
     this.quantity = quantity;
@@ -25,7 +26,7 @@ class Item {
     this.category = category;
     this.subtotal = unitPrice.multiply(quantity);
     this.total = this.subtotal;
-    this.itemDiscounts = [];
+    this.itemDiscounts = itemDiscounts;
   }
 
   getProductId(): string {

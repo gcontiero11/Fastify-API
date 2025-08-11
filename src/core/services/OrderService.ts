@@ -8,6 +8,7 @@ import type { Product } from "@prisma/client";
 import ProductRepository from "../repositories/ProductRepository";
 import Quote from "../domain/Quote";
 import { ProductReqModel } from "../schemas/product.schema";
+import QuoteRepository from "../repositories/QuoteRepository";
 
 class OrderService {
   async createOrder(
@@ -39,12 +40,28 @@ class OrderService {
       const products: Product[] = await ProductRepository.findByProductIds(
         request.requestedProducts.map((item) => item.productId),
       );
+
+      if (products.length !== request.requestedProducts.length) {
+        throw new ResponseException("Product not found", 404);
+      }
+
       const items = this.toItems(products, request.requestedProducts);
-      const quote = new Quote(items);
-      return quote;
+      const order = DiscountEngine.calculateAndApplyDiscounts(new Order(items));
+      const quote = new Quote(
+        "BRL",
+        order.getSubtotal(),
+        order.getTotal(),
+        order.getItems(),
+        order.getOrderDiscounts(),
+      );
+      const savedQuote = await QuoteRepository.save(quote);
+
+      if (savedQuote instanceof ResponseException) return savedQuote;
+      return savedQuote;
     } catch (error) {
       if (error instanceof ResponseException) return error;
-      throw new ResponseException("Internal server error", 500);
+      console.error(error);
+      return new ResponseException("Internal server error", 500);
     }
   }
 

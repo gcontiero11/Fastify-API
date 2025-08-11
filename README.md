@@ -70,6 +70,180 @@ Siga o passo a passo:
 
 ---
 
+## 🔌 Endpoints da API
+
+### Health Check
+
+#### `GET /ping`
+Verifica se a API está funcionando.
+
+**Resposta:**
+```json
+"pong"
+```
+
+### Pedidos
+
+#### `POST /v1/orders`
+Cria um novo pedido com cálculo automático de descontos.
+
+**Parâmetros de Entrada:**
+```json
+{
+  "requestedProducts": [
+    {
+      "productId": "string",
+      "quantity": "number"
+    }
+  ]
+}
+```
+
+**Parâmetros de Query (Opcional):**
+- `quoteKey` (string): Chave de uma cotação existente para criar pedido a partir dela
+
+**Resposta de Sucesso (200):**
+```json
+{
+  "currency": "BRL",
+  "items": [
+    {
+      "productId": "string",
+      "quantity": "number",
+      "unitPrice": "number",
+      "subtotal": "number",
+      "category": "string",
+      "itemDiscounts": [
+        {
+          "code": "string",
+          "name": "string",
+          "fixed": "number",
+          "rate": "number",
+          "basis": "number",
+          "amount": "number",
+          "metadata": "object"
+        }
+      ]
+    }
+  ],
+  "discounts": [
+    {
+      "code": "string",
+      "name": "string",
+      "fixed": "number",
+      "rate": "number",
+      "basis": "number",
+      "amount": "number",
+      "metadata": "object"
+    }
+  ],
+  "total": "number",
+  "subtotal": "number"
+}
+```
+
+#### `POST /v1/orders/quote`
+Cria uma cotação com cálculo automático de descontos.
+
+**Parâmetros de Entrada:**
+```json
+{
+  "requestedProducts": [
+    {
+      "productId": "string",
+      "quantity": "number"
+    }
+  ]
+}
+```
+
+**Resposta de Sucesso (200):**
+```json
+{
+  "quoteKey": "string",
+  "currency": "BRL",
+  "items": [
+    {
+      "productId": "string",
+      "quantity": "number",
+      "unitPrice": "number",
+      "subtotal": "number",
+      "category": "string",
+      "itemDiscounts": [
+        {
+          "code": "string",
+          "name": "string",
+          "fixed": "number",
+          "rate": "number",
+          "basis": "number",
+          "amount": "number",
+          "metadata": "object"
+        }
+      ]
+    }
+  ],
+  "discounts": [
+    {
+      "code": "string",
+      "name": "string",
+      "fixed": "number",
+      "rate": "number",
+      "basis": "number",
+      "amount": "number",
+      "metadata": "object"
+    }
+  ],
+  "total": "number",
+  "subtotal": "number",
+  "validUntil": "string (dd-MM-YYYY)"
+}
+```
+
+**Resposta de Erro (422):**
+```json
+{
+  "message": "Invalid products",
+  "errors": [
+    {
+      "path": "string",
+      "message": "string"
+    }
+  ]
+}
+```
+
+### 📋 Descrição dos Campos
+
+#### Produto Solicitado (`requestedProducts`)
+- `productId` (string): Identificador único do produto
+- `quantity` (number): Quantidade desejada do produto
+
+#### Item da Resposta
+- `productId` (string): Identificador do produto
+- `quantity` (number): Quantidade do item
+- `unitPrice` (number): Preço unitário em centavos
+- `subtotal` (number): Subtotal do item em centavos
+- `category` (string): Categoria do produto
+- `itemDiscounts` (array): Descontos aplicados especificamente ao item
+
+#### Desconto Aplicado
+- `code` (string): Código do desconto
+- `name` (string): Nome do desconto
+- `fixed` (number): Valor fixo do desconto em centavos
+- `rate` (number): Taxa percentual do desconto (0.0 a 1.0)
+- `basis` (number): Valor base para cálculo do desconto em centavos
+- `amount` (number): Valor final após desconto em centavos
+- `metadata` (object): Informações adicionais sobre o desconto
+
+#### Resposta Geral
+- `currency` (string): Moeda utilizada (sempre "BRL")
+- `total` (number): Valor total final em centavos
+- `subtotal` (number): Subtotal sem descontos em centavos
+- `quoteKey` (string): Chave única da cotação (apenas para quotes)
+- `validUntil` (string): Data de validade da cotação (apenas para quotes)
+
+---
+
 ## 📬 Coleção Postman
 
 Este projeto inclui uma coleção do **Postman** para facilitar os testes das requisições na API.

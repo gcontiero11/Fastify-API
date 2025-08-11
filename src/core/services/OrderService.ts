@@ -33,6 +33,25 @@ class OrderService {
     }
   }
 
+  async createOrderFromQuote(
+    quoteKey: string,
+  ): Promise<Order | ResponseException> {
+    try {
+      const quote: Quote | ResponseException =
+        await QuoteRepository.findByQuoteKey(quoteKey);
+      if (quote instanceof ResponseException) return quote;
+
+      const order = new Order(quote.items);
+      order.setDiscounts(quote.discounts);
+      order.setSubtotal(quote.subtotal);
+      order.setTotal(quote.total);
+      return order;
+    } catch (error) {
+      if (error instanceof ResponseException) return error;
+      return new ResponseException("Internal server error", 500);
+    }
+  }
+
   async createQuote(
     request: CreateOrderReqModel,
   ): Promise<Quote | ResponseException> {
@@ -48,7 +67,6 @@ class OrderService {
       const items = this.toItems(products, request.requestedProducts);
       const order = DiscountEngine.calculateAndApplyDiscounts(new Order(items));
       const quote = new Quote(
-        "BRL",
         order.getSubtotal(),
         order.getTotal(),
         order.getItems(),

@@ -5,11 +5,13 @@ import OrderService from "../core/services/OrderService";
 import { ResponseException } from "../exception/ResponseException";
 import QuoteMapper from "../core/mappers/QuoteMapper";
 import OrderMapper from "../core/mappers/OrderMapper";
+import Order from "../core/domain/Order";
 
 class OrderController {
   async createOrder(req: FastifyRequest, res: FastifyReply) {
     console.log(req.body);
     const products = req.body as CreateOrderReqModel;
+    const { quoteKey } = req.query as { quoteKey: string };
 
     const parseIn = createOrderReqSchema.safeParse(products);
 
@@ -22,8 +24,13 @@ class OrderController {
         })),
       });
     }
+    let result: Order | ResponseException;
 
-    const result = await OrderService.createOrder(products);
+    if (quoteKey) {
+      result = await OrderService.createOrderFromQuote(quoteKey);
+    } else {
+      result = await OrderService.createOrder(products);
+    }
 
     if (result instanceof ResponseException) {
       return res.status(result.getStatusCode()).send(result);
